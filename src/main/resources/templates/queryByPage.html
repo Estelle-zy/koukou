@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>分页展示所有数据</title>
+<!--    样式-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" >
+</head>
+
+<body>
+<div class="box">
+    <div class="insert">
+    </div>
+    <table class="table table-hover" border="1" cellspacing="0" cellpadding="0">
+        <thead >
+        <tr >
+            <th class="text-center">简历ID</th>
+            <th class="text-center">真实姓名</th>
+            <th class="text-center">性别</th>
+            <th class="text-center">年龄</th>
+            <th class="text-center">邮箱</th>
+            <th class="text-center">电话</th>
+            <th class="text-center">毕业院校</th>
+            <th class="text-center">奖励</th>
+            <th class="text-center">简介</th>
+            <th class="text-center">经历</th>
+            <th class="text-center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r:${pageInfo.list}">
+            <td th:text="${r.id}"></td>
+            <td th:text="${r.name}"></td>
+            <td th:text="${r.sex==0?'男':'女'}"></td>
+            <td th:text="${r.age}"></td>
+            <td th:text="${r.email}"></td>
+            <td th:text="${r.phone}"></td>
+            <td th:text="${r.school}"></td>
+            <td th:text="${r.awards}"></td>
+            <td th:text="${r.introduce}"></td>
+            <td th:text="${r.experience}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="as">
+    <div class="as one">
+        当前第<span th:text="${studentPageInfo.pageNum}"></span> 页，
+        共<span th:text="${studentPageInfo.pages}"></span> 页，
+        <span th:text="${studentPageInfo.total}"></span>条记录
+    </div>
+    <ul class="as current" style="list-style: none">
+        <!--th:if="${studentPageInfo.hasPreviousPage}"}-->
+        <li th:if="${studentPageInfo.hasPreviousPage}"}><!--hasPreviousPage默认值为false， 如果有上一页，则不显示首页-->
+            <a th:href="@{/list?pageNum=}+${1}">首页</a>
+        </li>
+        <li th:if="${studentPageInfo.hasPreviousPage}"><!--hasPreviousPage默认值为false， 如果有上一页，则不显示-->
+            <a th:href="@{/list?pageNum=}+${studentPageInfo.prePage}">上一页</a>
+        </li>
+        <li th:each="nav:${studentPageInfo.navigatepageNums}"><!--navigatepageNums是一个数组：遍历所有导航页号。 -->
+            <a th:href="@{/list?pageNum=}+${nav}" th:text="${nav}" th:if="${nav != studentPageInfo.pageNum}"></a><!--如果不是当前页则可以跳转其他页面。遍历展示-->
+            <a th:class="${'active'}" th:if="${nav == studentPageInfo.pageNum}" th:text="${nav}"></a><!--如果是当前页则有样式。遍历 展示-->
+        </li>
+        <li th:if="${studentPageInfo.hasNextPage}"><!--hasNextPage默认值为false， 如果没有下一页，则不显示-->
+            <a th:href="@{/list?pageNum=}+${studentPageInfo.nextPage}">下一页</a>
+        </li>
+        <li th:if="${studentPageInfo.pageNum < studentPageInfo.pages}"><!--如果当前页小于总页数则不显示尾页 -->
+            <a th:href="@{/list?pageNum=}+${studentPageInfo.pages}">尾页</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
+<style>
+    .table-hover{
+        text-align: center;
+    }
+    .as .current{
+        width: 600px;
+        text-align: center;
+    }
+    ul::after{
+        content:"";
+        display:block;
+        height:0;
+        clear:both;
+        visibility:hidden;
+    }
+    ul{
+        margin-left: -35px;
+    }
+    .one{
+        margin-left: 15px;
+    }
+    ul a{
+        text-decoration: none;
+        display: inline-block;
+        width: 50px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+
+    }
+    ul li{
+        float: left;
+        background: #ffc0cb;
+        list-style: none;
+        margin: 10px;
+        border-radius: 10px;
+    }
+    .active{
+        background-color: orange;
+        border-radius: 10px;
+    }
+</style>

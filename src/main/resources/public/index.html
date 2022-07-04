@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <!--引入bootstrap样式文件-->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <!--引入jq（必须在bootstrap.min.js文件之前）-->
+    <script type="application/javascript" src="static/js/jquery-1.11.3.min.js"></script>
+    <!--引入bootstrap js-->
+    <script type="application/javascript" src="static/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<center>
+    <h1>欢迎访问技能交易平台</h1>
+    <hr/>
+
+    <a href="/api/resumecontroller/queryByPage">查询所有简历数据</a>
+    <hr/>
+
+    <a href="/api/logInfoController/logTestGet">测试get日志</a>
+    <hr/>
+    <a href="/api/logInfoController/logTestPost">测试post日志</a>
+    <hr/>
+
+    <a href="/api/permissionController/getUser">测试User权限</a>
+    <hr/>
+    <a href="/api/permissionController/getAGi">测试AGi权限</a>
+    <hr/>
+
+    <a href="/api/upAndDonwload/upload">上传图片</a>
+    <hr/>
+
+    <a href="/api/upAndDonwload/download">下载图片</a>
+    <hr/>
+
+</center>
+</body>
+</html>
