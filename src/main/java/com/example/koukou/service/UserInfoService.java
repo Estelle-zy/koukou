@@ -1,5 +1,8 @@
 package com.example.koukou.service;
 
+import com.example.koukou.entity.LogInfo;
+import com.github.pagehelper.Page;
+
 /**
  * @Author
  * @Date 2022/6/2 21:05
@@ -8,4 +11,6 @@ package com.example.koukou.service;
  **/
 public interface UserInfoService {
     public Object addUserInfo(String name, String pwd);
+
+
 }

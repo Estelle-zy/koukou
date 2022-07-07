@@ -23,6 +23,7 @@ public class RedisController {
     private UserInfoService service;
 
     @LogInfoAnno(description = "测试redis 存储对象", businessType = "resume模块")
+    @ResponseBody
     @RequestMapping("/redis")
     public ResponseResult addUserInfo(String name, String pwd) {
         Object o = service.addUserInfo(name, pwd);

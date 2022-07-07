@@ -26,7 +26,7 @@ public class FileUpAndDownloadController {
     private FileProperties fileProperties;
 
 
-    @LogInfoAnno(description = "文件上传", businessType = "resume模块")
+    @LogInfoAnno(description = "文件上传", businessType = "文件上传下载模块")
     @PostMapping("/upload")
     @ResponseBody
     public ResponseResult upload(MultipartFile file) {
@@ -41,7 +41,7 @@ public class FileUpAndDownloadController {
     }
 
 
-    @LogInfoAnno(description = "文件下载", businessType = "resume模块")
+    @LogInfoAnno(description = "文件下载", businessType = "文件上传下载模块")
     @GetMapping("/download/{fileName}")
     @ResponseBody
     public void download(@PathVariable(value = "fileName") String filename, HttpServletResponse response) {
