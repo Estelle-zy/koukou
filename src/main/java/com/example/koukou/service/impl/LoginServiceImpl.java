@@ -1,7 +1,7 @@
 package com.example.koukou.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.example.koukou.entity.UserInfo;
+import com.example.koukou.entity.UserInfo_Redis;
 import com.example.koukou.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -26,14 +26,14 @@ public class LoginServiceImpl implements LoginService {
         String value = ops.get(redisKey); //先从redis中根据key取出对应的密码
         //没有取到，说明该用户是第一次输错账号或者密码，将错误次数和用户信息记录到redis中
         if (value == null) {
-            UserInfo user = new UserInfo();
-            user.setUname(name);
+            UserInfo_Redis user = new UserInfo_Redis();
+            user.setName(name);
             user.setPassword(password);
             user.setCount(1);
             user.setStatus(0);
             ops.set(redisKey, JSON.toJSONString(user));
         }else {//取到了，查看错误次数，
-            UserInfo user = JSON.parseObject(value, UserInfo.class);
+            UserInfo_Redis user = JSON.parseObject(value, UserInfo_Redis.class);
             if (user.getCount() >= 3) {
                 //大于等于3次，封号(修改用户的状态)    user:admin   1  status 0
                 user.setStatus(1);

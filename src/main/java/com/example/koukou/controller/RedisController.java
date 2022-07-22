@@ -2,11 +2,8 @@ package com.example.koukou.controller;
 
 import com.example.koukou.basic.ResponseResult;
 import com.example.koukou.config.LogInfoAnno;
-import com.example.koukou.entity.UserInfo;
-import com.example.koukou.service.UserInfoService;
-import org.apache.catalina.User;
+import com.example.koukou.service.UserInfo_RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/redisController")
 public class RedisController {
     @Autowired
-    private UserInfoService service;
+    private UserInfo_RedisService service;
 
     @LogInfoAnno(description = "测试redis 存储对象", businessType = "resume模块")
     @ResponseBody

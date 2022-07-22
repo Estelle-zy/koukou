@@ -2,6 +2,7 @@ package com.example.koukou.config;
 
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.koukou.entity.LogInfo;
 import com.example.koukou.service.LogInfoService;
 import org.aspectj.lang.JoinPoint;
@@ -15,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -71,8 +75,18 @@ public class LogInfoAspect {
         //参数信息
         StringBuilder builder = new StringBuilder();
         builder.append(description + ":" + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-        Object obj = joinPoint.getArgs();
-        String s = JSON.toJSONString(obj);
+
+        Object[] args = joinPoint.getArgs();
+        Object[] arguments  = new Object[args.length];
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] instanceof ServletRequest || args[i] instanceof ServletResponse || args[i] instanceof MultipartFile) {
+                //ServletRequest不能序列化，从入参里排除，否则报异常：java.lang.IllegalStateException: It is illegal to call this method if the current request is not in asynchronous mode (i.e. isAsyncStarted() returns false)
+                //ServletResponse不能序列化 从入参里排除，否则报异常：java.lang.IllegalStateException: getOutputStream() has already been called for this response
+                continue;
+            }
+            arguments[i] = args[i];
+        }
+        String paramters = JSONObject.toJSONString(arguments);
         //调用时间
         SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -81,7 +95,7 @@ public class LogInfoAspect {
         logInfo.setIp(ipAddr);
         logInfo.setMsg(description);
         logInfo.setType(businessType);
-        logInfo.setParam(s);
+        logInfo.setParam(paramters);
 
         service.add(logInfo);
     }
